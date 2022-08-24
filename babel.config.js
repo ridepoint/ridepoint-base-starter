@@ -1,10 +1,12 @@
-const tsconfig = require('./tsconfig.json');
-let rawAlias = tsconfig.compilerOptions.paths;
-let alias = {};
+const tsconfig = require("./tsconfig.json")
+const rawAlias = tsconfig.compilerOptions.paths
+const alias = {}
 
-for (let x in rawAlias) {
-    alias[x.replace('/*', '')] = rawAlias[x].map(
-        p => p.replace('/*', ''));
+// get aliases from tsconfig
+for (let alias in rawAlias) {
+  alias[alias.replace("/*", "")] = rawAlias[alias].map((path) =>
+    path.replace("/*", "")
+  )
 }
 
 module.exports = function (api) {
@@ -13,20 +15,13 @@ module.exports = function (api) {
     presets: ["babel-preset-expo"],
     plugins: [
       [
-          'module-resolver',
-          {
-              root: ['./'],
-              extensions: [
-                  '.ios.js',
-                  '.android.js',
-                  '.js',
-                  '.ts',
-                  '.tsx',
-                  '.json',
-              ],
-              alias,
-          },
+        "module-resolver",
+        {
+          root: ["./"],
+          extensions: [".ios.js", ".android.js", ".js", ".ts", ".tsx", ".json"],
+          alias,
+        },
       ],
-  ],
+    ],
   }
 }
